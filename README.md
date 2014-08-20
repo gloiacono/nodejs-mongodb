@@ -1,4 +1,8 @@
 nodejs-mongodb
 ==============
 
-Simple app with node.js &amp; mongodb
+Simple example with node.js &amp; mongodb using:
+
+- mongodb
+- node.js
+- moongose
