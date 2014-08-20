@@ -55,6 +55,6 @@ app.use(function(err, req, res, next) {
     });
 });
 
-console.log(app.get('env'));
+//console.log(app.get('env'));
 
 module.exports = app;
