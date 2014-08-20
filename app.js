@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var logs = require('./routes/logs');
+var mongoose = require('mongoose');
+var fs = require('fs');
 
 var app = express();
 
@@ -23,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/logs', logs);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -56,5 +60,21 @@ app.use(function(err, req, res, next) {
 });
 
 //console.log(app.get('env'));
+
+// connect to mongodb
+mongoose.connect('mongodb://localhost/test');
+
+// check connection
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log('Connessione aperta');
+});
+
+// load all files in models dir
+fs.readdirSync(__dirname + '/models').forEach(function(filename){
+    if (~filename.indexOf('.js')) require(__dirname + '/models/' + filename) 
+});
+
 
 module.exports = app;
